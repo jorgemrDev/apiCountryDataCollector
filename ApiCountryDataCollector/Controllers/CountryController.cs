@@ -45,4 +45,16 @@ public class CountriesController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
+    private static List<Country> FilterCountriesByName(List<Country> countries, string searchQuery)
+    {
+        // Use LINQ to filter countries based on the search query
+        searchQuery = searchQuery.ToLower(); // Make the search case-insensitive
+
+        List<Country> filteredCountries = countries
+            .Where(country => country.name.common.ToLower().Contains(searchQuery))
+            .ToList();
+
+        return filteredCountries;
+    }
 }

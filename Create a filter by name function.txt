@@ -1,0 +1,6 @@
+using c#
+    Create a function that accepts a string as a parameter and can filter by country `name/common`.  
+
+    The filter should search for countries names that contains string from attributes (e.g. providing `st` as attribute I could find `Estonia`, providing `Sp` I could find `Spain`) 
+
+    search should be case insensitive (e.g., providing `sT` should find `Estonia`) 
