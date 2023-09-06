@@ -19,8 +19,8 @@ public class CountriesController : ControllerBase
 
     [HttpGet("getCountry")]
     public async Task<IActionResult> GetCountry(
-        [FromQuery] string searchQuery = "st",
-        [FromQuery] int maxPopulation = 1111111,
+        [FromQuery] int maxPopulation = 0,
+        [FromQuery] string searchQuery = "", 
         [FromQuery] string sortOrder = "ascend",
         [FromQuery] int numberOfRecords = 10)
     {
@@ -51,24 +51,31 @@ public class CountriesController : ControllerBase
 
     private static List<Country> FilterCountriesByName(List<Country> countries, string searchQuery)
     {
-        // Use LINQ to filter countries based on the search query
-        searchQuery = searchQuery.ToLower(); // Make the search case-insensitive
+        if (!string.IsNullOrWhiteSpace(searchQuery))
+        {
+            // Use LINQ to filter countries based on the search query
+            searchQuery = searchQuery.ToLower(); // Make the search case-insensitive
 
-        List<Country> filteredCountries = countries
-            .Where(country => country.name.common.ToLower().Contains(searchQuery))
-            .ToList();
+            List<Country> filteredCountries = countries
+                .Where(country => country.name.common.ToLower().Contains(searchQuery))
+                .ToList();
+            return filteredCountries;
+        }
+        return countries;
 
-        return filteredCountries;
     }
 
     private static List<Country> FilterCountriesByPopulation(List<Country> countries, int maxPopulation)
     {
-        // Use LINQ to filter countries based on the maximum population
-        List<Country> filteredCountries = countries
-            .Where(country => country.population < maxPopulation)
-            .ToList();
-
+        if (maxPopulation > 0)
+        {
+            // Use LINQ to filter countries based on the maximum population
+             List<Country> filteredCountries = countries
+                .Where(country => country.population < maxPopulation)
+                .ToList();
         return filteredCountries;
+        }
+        return countries;
     }
 
     private static List<Country> SortCountriesByName(List<Country> countries, string sortOrder)

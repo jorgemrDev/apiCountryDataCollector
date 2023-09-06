@@ -116,13 +116,12 @@ namespace YourNamespace.Tests
             // Act
             var result = await _controller.GetCountry(sortOrder: "descend");
 
-
             // Assert
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
             var okObjectResult = (OkObjectResult)result;
             List<Country> filteredCountries = (List<Country>)okObjectResult.Value;
-            Assert.AreEqual(6, filteredCountries.Count);
-            Assert.AreEqual("Western Sahara", filteredCountries[0].name.common);
+            Assert.AreEqual(10, filteredCountries.Count);
+            Assert.AreEqual("Zimbabwe", filteredCountries[0].name.common);
         }
     }
 }
