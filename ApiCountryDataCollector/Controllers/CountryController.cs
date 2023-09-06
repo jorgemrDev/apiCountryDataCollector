@@ -67,4 +67,21 @@ public class CountriesController : ControllerBase
 
         return filteredCountries;
     }
+
+    private static List<Country> SortCountriesByName(List<Country> countries, string sortOrder)
+    {
+        // Use LINQ to sort countries by name in ascending or descending order
+        if (sortOrder.ToLower() == "ascend")
+        {
+            return countries.OrderBy(country => country.name.common).ToList();
+        }
+        else if (sortOrder.ToLower() == "descend")
+        {
+            return countries.OrderByDescending(country => country.name.common).ToList();
+        }
+        else
+        {
+            throw new ArgumentException("Invalid sortOrder. Use 'ascend' or 'descend'.");
+        }
+    }
 }

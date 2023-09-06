@@ -1,0 +1,3 @@
+using same country class     Create a function that accepts a string as an attribute and can sort data by ` name/common `.  
+
+    The sort should accept string ` ascend or descend ` and sort countries name by provided attribute (e.g. providing attribute ascend all countries should be sorted from A to Z) 
