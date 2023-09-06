@@ -19,10 +19,10 @@ public class CountriesController : ControllerBase
 
     [HttpGet("getCountry")]
     public async Task<IActionResult> GetCountry(
-        [FromQuery] string param1 = null,
-        [FromQuery] int param2 = 0,
-        [FromQuery] string param3 = null,
-        [FromQuery] string param4 = null)
+        [FromQuery] string searchQuery = "st",
+        [FromQuery] int maxPopulation = 1111111,
+        [FromQuery] string sortOrder = "ascend",
+        [FromQuery] int numberOfRecords = 10)
     {
         try
         {
@@ -36,7 +36,10 @@ public class CountriesController : ControllerBase
             // Deserialize the JSON response to a list of Country objects
             var countries = JsonSerializer.Deserialize<List<Country>>(response);
 
-            // Apply your parameter filtering logic here if needed
+            countries = FilterCountriesByName(countries, searchQuery);
+            countries = FilterCountriesByPopulation(countries, maxPopulation);
+            countries = SortCountriesByName(countries, sortOrder);
+            countries = LimitRecords(countries, numberOfRecords);
 
             return Ok(countries);
         }
