@@ -1,0 +1,3 @@
+using same Country class  Create a function that accepts a number as an attribute and can filter by ` population `.  
+
+    The filter should search for countries where the population is less than provided number from attributes in the millions of people (e.g., by providing value `10`, I should find countries with a population less than 10m) 

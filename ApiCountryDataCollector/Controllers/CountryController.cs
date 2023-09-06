@@ -57,4 +57,14 @@ public class CountriesController : ControllerBase
 
         return filteredCountries;
     }
+
+    private static List<Country> FilterCountriesByPopulation(List<Country> countries, int maxPopulation)
+    {
+        // Use LINQ to filter countries based on the maximum population
+        List<Country> filteredCountries = countries
+            .Where(country => country.population < maxPopulation)
+            .ToList();
+
+        return filteredCountries;
+    }
 }
