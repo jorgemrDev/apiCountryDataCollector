@@ -1,40 +1,48 @@
+using ApiCountryDataCollector.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Diagnostics.Metrics;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace RestCountriesApi.Controllers
+[Route("api/[controller]")]
+[ApiController]
+public class CountriesController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CountriesController : ControllerBase
+    private readonly IHttpClientFactory _httpClientFactory;
+
+    public CountriesController(IHttpClientFactory httpClientFactory)
     {
-        private readonly HttpClient _httpClient;
+        _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
+    }
 
-        public CountriesController(IHttpClientFactory httpClientFactory)
+    [HttpGet("getCountry")]
+    public async Task<IActionResult> GetCountry(
+        [FromQuery] string param1 = null,
+        [FromQuery] int param2 = 0,
+        [FromQuery] string param3 = null,
+        [FromQuery] string param4 = null)
+    {
+        try
         {
-           _httpClient = httpClientFactory.CreateClient();
+            // Construct the API URL
+            var apiUrl = "https://restcountries.com/v3.1/all";
+
+            // Make a request to the REST Countries API
+            using var client = _httpClientFactory.CreateClient();
+            var response = await client.GetStringAsync(apiUrl);
+
+            // Deserialize the JSON response to a list of Country objects
+            var countries = JsonSerializer.Deserialize<List<Country>>(response);
+
+            // Apply your parameter filtering logic here if needed
+
+            return Ok(countries);
         }
-
-        [HttpGet]
-        public async Task<IActionResult> GetCountries([FromQuery] string param1, [FromQuery] string param2, [FromQuery] string param3, [FromQuery] string param4)
+        catch (Exception ex)
         {
-            // Create the URL with parameters (you can customize this based on your requirements).
-            string apiUrl = "https://restcountries.com/v3.1/all";
-
-            // Make the HTTP request to the REST Countries API.
-            var response = await _httpClient.GetAsync(apiUrl);
-
-            if (response.IsSuccessStatusCode)
-            {
-                // Parse the JSON response to a variable/object.
-                var json = await response.Content.ReadAsStringAsync();
-                var countriesData = JsonSerializer.Deserialize<object>(json);
-
-                return Ok(countriesData);
-            }
-
-            return BadRequest("Failed to retrieve data from the API.");
+            return BadRequest(ex.Message);
         }
     }
 }
