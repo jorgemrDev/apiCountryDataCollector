@@ -1,0 +1,6 @@
+using c# dotnet 6
+  Create the endpoint that accepts parameters. Endpoint could accept from 0 to 4 parameters, type string, number, string. Naming is optional. 
+
+    Make a request to the public `REST Countries` API using endpoint https://restcountries.com/v3.1/all 
+
+    Parse retrieved API response data in JSON to variable/object. 
