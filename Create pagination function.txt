@@ -1,0 +1,3 @@
+using same country class     Create a function that accepts numbers as an attribute and can limit the number of records.  
+
+    The functionality should accept a number and retrieve first n records (e.g., providing number `15` I should receive 15 first records from API).  

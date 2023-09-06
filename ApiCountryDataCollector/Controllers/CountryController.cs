@@ -84,4 +84,14 @@ public class CountriesController : ControllerBase
             throw new ArgumentException("Invalid sortOrder. Use 'ascend' or 'descend'.");
         }
     }
+
+    private static List<Country> LimitRecords(List<Country> countries, int numberOfRecords)
+    {
+        // Use LINQ to take the first 'numberOfRecords' records
+        List<Country> limitedCountries = countries
+            .Take(numberOfRecords)
+            .ToList();
+
+        return limitedCountries;
+    }
 }
